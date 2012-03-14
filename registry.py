@@ -30,9 +30,9 @@ class Key(_base):
     """
 
     def __init__(self, path, _parent):
-        self = OpenKey(self.con, self.path)
         self.con = self._parent = _parent
         self.path = path
+        self = OpenKey(self.con, self.path)
         self.name = path.split('\\')[-1]
         self.num_keys, self.num_values, self.last_mod = \
                        QueryInfoKey(self)
@@ -41,7 +41,7 @@ class Key(_base):
         for i in range(self.num_values):
             yield Value(*EnumValue(self,i))
 
-    def subkeys(self):
+    def get_subkeys(self):
         for i in range(self.num_keys):
             subkey = EnumKey(key,i)
             yield Key(path + '\\' + subkey, self)

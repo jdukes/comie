@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import comtypes.client 
-from registry import Registry
+from registry import Registry, HKEY_CLASSES_ROOT
 
 
 reg = Registry(HKEY_CLASSES_ROOT)

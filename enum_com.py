@@ -3,9 +3,9 @@
 import os
 import sys
 
-from registry import Registry
-
 import com
+from registry import Registry, HKEY_CLASSES_ROOT
+
 
 OUTPUT_DIR = "c:\\com_enum\\"
 CLSID_LOG = OUTPUT_DIR + 'clsid_snap.log'
@@ -25,18 +25,18 @@ def snapshot():
             print "If this is expected please remove the path and run again"
         clsid_snap = open(CLSID_LOG,'w')
         appid_snap = open(APPID_LOG,'w')
-        [clsid_snap.write(k.lower() +'\n') for k in reg.get_subkeys('CLSID')]
+        [clsid_snap.write(k.lower() +'\n') for k in reg.get_subkey('CLSID').get_subkeys()]
         clsid_snap.close()
-        [appid_snap.write(k.lower()+'\n') for k in reg.get_subkeys('APPID')]
+        [appid_snap.write(k.lower()+'\n') for k in reg.get_subkey('APPID').get_subkeys()]
         appid_snap.close()
         print "initial snapshot taken. Install, reboot, and run again."
         sys.exit(0)
     else:
         clsid_snap = open(CLSID_LOG,'r+')
         appid_snap = open(APPID_LOG,'r+')
-        new_clsids = set(k.lower() for k in get_subkeys('CLSID')).difference(
+        new_clsids = set(k.lower() for k in reg.get_subkey('CLSID').get_subkeys()).difference(
             k.strip() for k in open(CLSID_LOG))
-        new_appids = set(k.lower() for k in get_subkeys('APPID')).difference(
+        new_appids = set(k.lower() for k in reg.get_subkey('APPID').get_subkeys()).difference(
             k.strip() for k in open(APPID_LOG))
         for f,l in ((clsid_snap,new_clsids),(appid_snap,new_appids)):
             f.seek(0)
