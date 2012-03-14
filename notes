@@ -1,0 +1,19 @@
+Write a tool that watches a process for file opens, reads, etc
+watch the filesystem for changes and try to map back to a process
+likewise with the registry
+
+why? Look for race conditions, or priv escalations via bad permissions
+
+watch for disk changes...
+http://timgolden.me.uk/python/win32_how_do_i/watch_directory_for_changes.html
+
+notify registry change...
+win32api.RegNotifyChangeKeyValue
+    http://msdn.microsoft.com/en-us/library/windows/desktop/ms724892%28v=vs.85%29.aspx
+    http://msdn.microsoft.com/en-us/library/windows/desktop/aa364106%28v=vs.85%29.aspx
+
+windowz registry
+http://www.williballenthin.com/registry/doc/Registry.html
+
+--------------------------------------------------------------------------------
+do the same thing for linux and release it
