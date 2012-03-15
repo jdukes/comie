@@ -45,6 +45,15 @@ class Key(_base):
         for i in range(self.num_values):
             yield Value(*EnumValue(self.con,i))
 
+    def get_value(self, name=None):
+        if name:
+            for i in range(self.num_values):
+                v = Value(*EnumValue(self.con,i))
+                if v.name == name:
+                    return v
+            raise ValueError('Value named %s not found' % name)
+        return Value(*EnumValue(self.con,1))
+
     def get_subkeys(self):
         for i in range(self.num_keys):
             subkey = EnumKey(self.con,i)
