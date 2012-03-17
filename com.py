@@ -10,8 +10,8 @@ class Com:
 
     def __init__(self, clsid):
         self.clsid = clsid
-        clsid_key = reg.get_subkey("CLSID\\" + clsid)
-        for value in clsid_key.get_values():
+        self.clsid_key = reg.get_subkey("CLSID\\" + clsid)
+        for value in self.clsid_key.get_values():
             if value.name == "@":
                 self.name = value.content
             if value.name.lower() == "appid":
@@ -19,13 +19,16 @@ class Com:
                 map( lambda v: self._setattr_(v.name, v.content),
                      ( val for val in
                        reg.get_subkey("AppID\\" + self.AppID).get_subkeys()))
-        for key in clsid_key.get_subkeys():
+        for key in self.clsid_key.get_subkeys():
             if key.name.lower() == "interface":
                 self.interface = key.values()
             if key.name.lower() == "control":
                 self.is_control = True
             if key.name.lower() == "programmable":
                 self.is_activex = True
+            if key.name.lower() == "implemented categories":
+                self.implemented_categories = [ k.name for k in key.get_subkeys()]
+                
             if key.name.lower() == "typelib":
                 self.typelib_guid = key.get_value().content
                 self.typelib_key = reg.get_subkey("TypeLib\\" +
