@@ -52,7 +52,7 @@ class Key(_base):
                 if v.name == name:
                     return v
             raise ValueError('Value named %s not found' % name)
-        return Value(*EnumValue(self.con,1))
+        return Value(*EnumValue(self.con,0))
 
     def get_subkeys(self):
         for i in range(self.num_keys):
